@@ -5,7 +5,7 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     screens: {
-      md1: { max: '1012px' },
+      md1: { max: '1200px' },
       md2: { max: '992.98px' },
       md3: { max: '767.98px' },
       md4: { max: '479.98px' }
@@ -14,7 +14,6 @@ export default {
       center: true,
       padding: '10px',
       screens: {
-        mw: '1000px',
         md1: '970px',
         md2: '750px',
         md3: '100%',

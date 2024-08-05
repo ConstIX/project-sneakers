@@ -17,12 +17,12 @@ import { Heart, ShoppingCart } from 'lucide-vue-next'
         <div class="flex gap-8">
           <a href="" class="flex items-center gap-2">
             <ShoppingCart size="18" color="#9b9b9b" />
-            <span class="text-sm leading-none text-gray-400">1205 руб.</span>
+            <span class="text-sm/none text-gray-400">1205 руб.</span>
           </a>
 
           <a href="" class="flex items-center gap-2">
             <Heart size="18" color="#9b9b9b" />
-            <span class="text-sm leading-none text-gray-400">Закладки</span>
+            <span class="text-sm/none text-gray-400">Закладки</span>
           </a>
         </div>
       </div>
