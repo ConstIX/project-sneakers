@@ -5,8 +5,8 @@ import Card from '../components/Card.vue'
 
 <template>
   <div class="pb-6 pt-20">
-    <div class="container">
-      <div class="flex items-center justify-between">
+    <div class="mx-auto max-w-[1000px] px-3 md1:max-w-[800px] md2:max-w-[600px] md4:max-w-[320px]">
+      <div class="flex items-center justify-between gap-5 md4:flex-col">
         <h1 class="text-3xl/none font-bold">Все кроссовки</h1>
         <div
           class="mt-3 flex w-full max-w-64 items-center gap-3 rounded-xl border border-gray-200 px-4 py-3"
@@ -20,7 +20,13 @@ import Card from '../components/Card.vue'
         </div>
       </div>
 
-      <div class="mt-10 flex gap-9">
+      <div
+        class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
+      >
+        <Card />
+        <Card />
+        <Card />
+        <Card />
         <Card />
         <Card />
         <Card />

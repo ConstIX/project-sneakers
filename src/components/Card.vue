@@ -1,10 +1,12 @@
 <script setup>
 import { Heart, Plus } from 'lucide-vue-next'
+
+defineProps({})
 </script>
 
 <template>
   <div
-    class="flex-[0_1_22.1%] rounded-3xl border border-gray-200 p-7 transition hover:-translate-y-3 hover:shadow-2xl hover:shadow-gray-200"
+    class="rounded-3xl border border-gray-200 bg-white p-7 transition hover:-translate-y-3 hover:shadow-xl"
   >
     <button class="rounded-lg border p-2">
       <Heart size="16" color="#E4E4E4" />
