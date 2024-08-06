@@ -16,7 +16,7 @@ defineProps({})
     <div class="flex items-center justify-between">
       <div>
         <p class="text-xs font-medium uppercase text-gray-300">Цена:</p>
-        <p class="text-sm font-bold">12 999 руб.</p>
+        <b class="text-sm">12 999 руб.</b>
       </div>
       <button class="rounded-lg border p-2">
         <Plus size="16" color="#E4E4E4" />

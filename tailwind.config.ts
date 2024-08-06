@@ -14,15 +14,7 @@ export default {
   },
   plugins: [
     plugin(function ({ addComponents }) {
-      addComponents({
-        '.btn': {
-          display: 'inline-block',
-          padding: '10px 20px',
-          fontSize: '14px',
-          borderRadius: '10px',
-          transition: 'all .3s ease 0s'
-        }
-      })
+      addComponents({})
     })
   ]
 } satisfies Config
