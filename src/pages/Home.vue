@@ -1,6 +1,18 @@
 <script setup>
+import { sneakersService } from '@/services/sneakers'
 import { Search } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
 import Card from '../components/Card.vue'
+
+const sneakers = ref([])
+
+onMounted(async () => {
+  try {
+    sneakers.value = await sneakersService.getSneakers()
+  } catch (error) {
+    throw new Error(error)
+  }
+})
 </script>
 
 <template>
@@ -23,14 +35,7 @@ import Card from '../components/Card.vue'
       <div
         class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
       >
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card v-for="obj in sneakers" :key="obj.id" v-bind="obj" />
       </div>
     </div>
   </div>
