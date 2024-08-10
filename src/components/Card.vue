@@ -6,7 +6,7 @@ defineProps({})
 
 <template>
   <div
-    class="rounded-3xl border border-gray-200 bg-white p-7 transition hover:-translate-y-3 hover:shadow-xl"
+    class="cursor-pointer rounded-3xl border border-gray-200 bg-white p-7 transition hover:-translate-y-3 hover:shadow-xl"
   >
     <button class="rounded-lg border p-2">
       <Heart size="16" color="#E4E4E4" />
