@@ -18,10 +18,6 @@ import DrawerCard from './DrawerCard.vue'
 
     <div class="mt-8 flex-1 space-y-5 md3:space-y-3">
       <DrawerCard />
-      <DrawerCard />
-      <DrawerCard />
-      <DrawerCard />
-      <DrawerCard />
     </div>
 
     <div class="mt-8">

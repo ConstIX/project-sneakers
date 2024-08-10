@@ -1,35 +1,44 @@
 <script setup>
+import Filter from '@/components/Filter.vue'
 import { sneakersService } from '@/services/sneakers'
-import { Search } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 
 const sneakers = ref([])
+const filter = reactive({
+  search: '',
+  sortItem: 'Названию',
+  sortProperty: 'title'
+})
 
-onMounted(async () => {
+const onChangeSort = (obj) => {
+  filter.sortItem = obj.item
+  filter.sortProperty = obj.sortProperty
+}
+
+const onChangeInput = (event) => {
+  filter.search = event
+}
+
+const fetchItems = async () => {
   try {
-    sneakers.value = await sneakersService.getSneakers()
+    sneakers.value = await sneakersService.getSneakers(filter.search, filter.sortProperty)
   } catch (error) {
     throw new Error(error)
   }
-})
+}
+
+onMounted(fetchItems)
+watch(filter, fetchItems)
 </script>
 
 <template>
   <div class="pb-6 pt-20">
     <div class="mx-auto max-w-[1000px] px-3 md1:max-w-[800px] md2:max-w-[600px] md4:max-w-[320px]">
       <div class="flex items-center justify-between gap-5 md4:flex-col">
-        <h1 class="text-3xl/none font-bold">Все кроссовки</h1>
-        <div
-          class="mt-3 flex w-full max-w-64 items-center gap-3 rounded-xl border border-gray-200 px-4 py-3"
-        >
-          <Search size="18" color="#E4E4E4" />
-          <input
-            class="block w-full max-w-48 text-sm outline-none placeholder:text-gray-300"
-            type="text"
-            placeholder="Поиск..."
-          />
-        </div>
+        <h1 class="text-3xl/none font-bold md3:text-2xl/none">Все кроссовки</h1>
+
+        <Filter v-bind="{ ...filter, onChangeSort, onChangeInput }" />
       </div>
 
       <div
