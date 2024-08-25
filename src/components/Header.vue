@@ -3,6 +3,10 @@ import { useMediaQuery } from '@vueuse/core'
 import { Heart, ShoppingCart } from 'lucide-vue-next'
 
 const isMobile = useMediaQuery('(max-width: 530px)')
+
+defineProps({
+  handleOpenDrawer: Function
+})
 </script>
 
 <template>
@@ -18,10 +22,10 @@ const isMobile = useMediaQuery('(max-width: 530px)')
         </a>
 
         <div class="flex gap-8 md4:gap-6">
-          <a href="" class="flex items-center gap-2 md4:flex-[0_1_18px]">
+          <button @click="handleOpenDrawer" class="flex items-center gap-2 md4:flex-[0_1_18px]">
             <ShoppingCart size="20" color="#9b9b9b" />
             <span v-if="!isMobile" class="text-sm/none text-gray-400">1205 руб.</span>
-          </a>
+          </button>
 
           <a href="" class="flex items-center gap-2">
             <Heart size="20" color="#9b9b9b" />

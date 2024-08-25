@@ -1,16 +1,29 @@
 <script setup>
 import { ArrowRight, ChevronLeft } from 'lucide-vue-next'
 import DrawerCard from './DrawerCard.vue'
+
+defineProps({
+  drawerVisible: Boolean,
+  handleOpenDrawer: Function
+})
 </script>
 
 <template>
-  <div class="fixed left-0 top-0 h-full w-full bg-black/65" />
+  <div
+    :class="[
+      'fixed top-0 z-10 h-full w-full bg-black/65 transition-all',
+      drawerVisible ? 'left-0' : '-left-[110%]'
+    ]"
+  />
 
   <div
-    class="fixed right-0 top-0 flex h-full w-96 flex-col overflow-auto bg-white p-8 md4:w-full md4:p-5"
+    :class="[
+      'fixed top-0 z-10 flex h-full w-96 flex-col overflow-auto bg-white p-8 transition-all md4:w-full md4:p-5',
+      drawerVisible ? 'right-0' : '-right-[110%]'
+    ]"
   >
     <div class="flex items-center gap-5">
-      <button class="mt-1 rounded-lg border p-1">
+      <button @click="handleOpenDrawer" class="mt-1 rounded-lg border p-1">
         <ChevronLeft size="20" color="#E4E4E4" />
       </button>
       <h2 class="text-2xl font-bold">Корзина</h2>

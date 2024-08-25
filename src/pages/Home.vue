@@ -1,8 +1,10 @@
 <script setup>
-import Filter from '@/components/Filter.vue'
-import { sneakersService } from '@/services/sneakers'
 import debounce from 'lodash.debounce'
 import { onMounted, reactive, ref, watch } from 'vue'
+
+import { sneakersService } from '@/services/sneakers'
+
+import Filter from '@/components/Filter.vue'
 import Card from '../components/Card.vue'
 
 const sneakers = ref([])
@@ -16,19 +18,42 @@ const onChangeSort = (obj) => {
   filter.sortItem = obj.item
   filter.sortProperty = obj.sortProperty
 }
-
 const onChangeInput = debounce((event) => (filter.search = event), 300)
 
-const fetchItems = async () => {
+const fetchSneakers = async () => {
   try {
-    sneakers.value = await sneakersService.getSneakers(filter.search, filter.sortProperty)
+    sneakers.value = (await sneakersService.getSneakers(filter.search, filter.sortProperty)).map(
+      (obj) => ({
+        ...obj,
+        isFavourite: false,
+        isAdded: false
+      })
+    )
   } catch (error) {
     throw new Error(error)
   }
 }
 
-onMounted(fetchItems)
-watch(filter, fetchItems)
+const fetchFavouriteSneakers = async () => {
+  try {
+    const favourites = await sneakersService.getFavouriteSneakers()
+
+    sneakers.value = sneakers.value.map((obj) => {
+      const favourite = favourites.find((i) => i.parentId === obj.id)
+
+      if (!favourite) return obj
+      return { ...obj, isFavourite: true, favouriteId: favourite.id }
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+onMounted(async () => {
+  await fetchSneakers()
+  await fetchFavouriteSneakers()
+})
+watch(filter, fetchSneakers)
 </script>
 
 <template>
@@ -43,7 +68,7 @@ watch(filter, fetchItems)
       <div
         class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
       >
-        <Card v-for="obj in sneakers" :key="obj.id" v-bind="obj" />
+        <Card v-for="obj in sneakers" :key="obj.id" v-bind="{ ...obj }" />
       </div>
     </div>
   </div>
