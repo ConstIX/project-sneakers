@@ -9,6 +9,8 @@ defineProps({
   isFavourite: Boolean,
   isAdded: Boolean
 })
+
+const emit = defineEmits(['addFavouriteSneakers'])
 </script>
 
 <template>
@@ -16,19 +18,13 @@ defineProps({
     class="relative flex h-full cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white px-7 pb-7 pt-2 transition hover:-translate-y-3 hover:shadow-xl"
   >
     <button
+      @click="() => emit('addFavouriteSneakers')"
       :class="[
-        'group absolute top-7 flex h-8 w-8 items-center justify-center rounded-lg border transition-colors hover:border-red-100 hover:bg-red-100',
+        'group absolute top-7 flex h-8 w-8 items-center justify-center rounded-lg border',
         isFavourite ? 'border-red-100 bg-red-100' : ''
       ]"
     >
-      <Heart
-        size="16"
-        color="#E4E4E4"
-        :class="[
-          'transition-colors group-hover:fill-red-400 group-hover:stroke-red-400',
-          isFavourite ? 'fill-red-400 stroke-red-400' : 'fill-white'
-        ]"
-      />
+      <Heart size="16" color="#E4E4E4" :class="isFavourite ? 'fill-red-400 stroke-red-400' : ''" />
     </button>
     <img :src="imageUrl" alt="..." class="mx-auto h-[149px] w-[159px]" />
     <p class="mb-4 mt-2 flex-1 text-sm">{{ title }}</p>

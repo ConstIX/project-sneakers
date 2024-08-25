@@ -9,11 +9,11 @@ const list = [
   { item: 'Цене (ASC)', sortProperty: '-price' }
 ]
 
+const emit = defineEmits(['onChangeSort', 'onChangeInput'])
+
 defineProps({
   search: String,
-  sortItem: String,
-  onChangeSort: Function,
-  onChangeInput: Function
+  sortItem: String
 })
 </script>
 
@@ -23,7 +23,7 @@ defineProps({
       <Search size="18" color="#E4E4E4" />
       <input
         :value="search"
-        @input="(e) => onChangeInput(e.target.value)"
+        @input="(e) => emit('onChangeInput', e.target.value)"
         class="block w-full max-w-48 text-sm outline-none placeholder:text-gray-300"
         type="text"
         placeholder="Поиск..."
@@ -50,7 +50,7 @@ defineProps({
           v-for="obj in list"
           @click="
             () => {
-              onChangeSort(obj)
+              emit('onChangeSort', obj)
               visible = false
             }
           "

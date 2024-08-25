@@ -2,9 +2,10 @@
 import { ArrowRight, ChevronLeft } from 'lucide-vue-next'
 import DrawerCard from './DrawerCard.vue'
 
+const emit = defineEmits(['handleOpenDrawer'])
+
 defineProps({
-  drawerVisible: Boolean,
-  handleOpenDrawer: Function
+  drawerVisible: Boolean
 })
 </script>
 
@@ -23,7 +24,7 @@ defineProps({
     ]"
   >
     <div class="flex items-center gap-5">
-      <button @click="handleOpenDrawer" class="mt-1 rounded-lg border p-1">
+      <button @click="emit('handleOpenDrawer')" class="mt-1 rounded-lg border p-1">
         <ChevronLeft size="20" color="#E4E4E4" />
       </button>
       <h2 class="text-2xl font-bold">Корзина</h2>

@@ -19,7 +19,19 @@ class SneakersService {
   }
 
   async getFavouriteSneakers() {
-    const { data } = await axios.get<Sneakers[]>(`${this.BASE_URL}/favourites`)
+    const { data } = await axios.get<{ id: number; parentId: number }>(
+      `${this.BASE_URL}/favourites`
+    )
+    return data
+  }
+
+  async postFavouriteSneakers(params: { parentId: number }) {
+    const { data } = await axios.post<{ parentId: number }>(`${this.BASE_URL}/favourites`, params)
+    return data
+  }
+
+  async deleteFavouriteSneakers(favouriteId: number) {
+    const { data } = await axios.delete(`${this.BASE_URL}/favourites/${favouriteId}`)
     return data
   }
 }

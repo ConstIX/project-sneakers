@@ -49,6 +49,21 @@ const fetchFavouriteSneakers = async () => {
   }
 }
 
+const addFavouriteSneakers = async (obj) => {
+  try {
+    if (!obj.isFavourite) {
+      obj.isFavourite = true
+      const favourites = await sneakersService.postFavouriteSneakers({ parentId: obj.id })
+      obj.favouriteId = favourites.id
+    } else {
+      obj.isFavourite = false
+      await sneakersService.deleteFavouriteSneakers(obj.favouriteId)
+    }
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 onMounted(async () => {
   await fetchSneakers()
   await fetchFavouriteSneakers()
@@ -62,13 +77,22 @@ watch(filter, fetchSneakers)
       <div class="flex items-center justify-between gap-5 md4:flex-col">
         <h1 class="text-3xl/none font-bold md3:text-2xl/none">Все кроссовки</h1>
 
-        <Filter v-bind="{ ...filter, onChangeSort, onChangeInput }" />
+        <Filter
+          @onChangeSort="onChangeSort"
+          @onChangeInput="onChangeInput"
+          v-bind="{ ...filter }"
+        />
       </div>
 
       <div
         class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
       >
-        <Card v-for="obj in sneakers" :key="obj.id" v-bind="{ ...obj }" />
+        <Card
+          v-for="obj in sneakers"
+          :key="obj.id"
+          @addFavouriteSneakers="() => addFavouriteSneakers(obj)"
+          v-bind="{ ...obj }"
+        />
       </div>
     </div>
   </div>

@@ -16,10 +16,10 @@ watch(drawerVisible, (newVal) => {
 </script>
 
 <template>
-  <Drawer v-bind="{ drawerVisible, handleOpenDrawer }" />
+  <Drawer @handleOpenDrawer="handleOpenDrawer" v-bind="{ drawerVisible }" />
 
   <div class="mx-auto mt-20 w-4/5 rounded-t-2xl bg-white shadow-xl md3:w-full md4:mt-0">
-    <Header :handleOpenDrawer="handleOpenDrawer" />
+    <Header @handleOpenDrawer="handleOpenDrawer" />
     <Home />
   </div>
 </template>
