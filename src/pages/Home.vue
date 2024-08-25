@@ -2,7 +2,8 @@
 import debounce from 'lodash.debounce'
 import { onMounted, reactive, ref, watch } from 'vue'
 
-import { sneakersService } from '@/services/sneakers'
+import { favouritesService } from '@/services/favourites.service'
+import { sneakersService } from '@/services/sneakers.service'
 
 import Filter from '@/components/Filter.vue'
 import Card from '../components/Card.vue'
@@ -36,7 +37,7 @@ const fetchSneakers = async () => {
 
 const fetchFavouriteSneakers = async () => {
   try {
-    const favourites = await sneakersService.getFavouriteSneakers()
+    const favourites = await favouritesService.getFavouriteSneakers()
 
     sneakers.value = sneakers.value.map((obj) => {
       const favourite = favourites.find((i) => i.parentId === obj.id)
@@ -53,11 +54,11 @@ const addFavouriteSneakers = async (obj) => {
   try {
     if (!obj.isFavourite) {
       obj.isFavourite = true
-      const favourites = await sneakersService.postFavouriteSneakers({ parentId: obj.id })
+      const favourites = await favouritesService.postFavouriteSneakers({ parentId: obj.id })
       obj.favouriteId = favourites.id
     } else {
       obj.isFavourite = false
-      await sneakersService.deleteFavouriteSneakers(obj.favouriteId)
+      await favouritesService.deleteFavouriteSneakers(obj.favouriteId)
     }
   } catch (error) {
     throw new Error(error)
