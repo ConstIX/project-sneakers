@@ -12,7 +12,6 @@ const list = [
 defineProps({
   search: String,
   sortItem: String,
-  sortProperty: String,
   onChangeSort: Function,
   onChangeInput: Function
 })
@@ -23,6 +22,7 @@ defineProps({
     <div class="mt-3 flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3">
       <Search size="18" color="#E4E4E4" />
       <input
+        :value="search"
         @input="(e) => onChangeInput(e.target.value)"
         class="block w-full max-w-48 text-sm outline-none placeholder:text-gray-300"
         type="text"
@@ -57,7 +57,7 @@ defineProps({
           :key="obj.item"
           :class="[
             'cursor-pointer px-4 py-2 transition',
-            sortItem === obj.item ? 'bg-gray-200' : 'hover:bg-gray-200'
+            sortItem === obj.item ? 'bg-gray-100' : 'hover:bg-gray-100'
           ]"
         >
           {{ obj.item }}

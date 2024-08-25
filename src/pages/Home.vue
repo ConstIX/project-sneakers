@@ -1,6 +1,7 @@
 <script setup>
 import Filter from '@/components/Filter.vue'
 import { sneakersService } from '@/services/sneakers'
+import debounce from 'lodash.debounce'
 import { onMounted, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 
@@ -16,9 +17,7 @@ const onChangeSort = (obj) => {
   filter.sortProperty = obj.sortProperty
 }
 
-const onChangeInput = (event) => {
-  filter.search = event
-}
+const onChangeInput = debounce((event) => (filter.search = event), 300)
 
 const fetchItems = async () => {
   try {
