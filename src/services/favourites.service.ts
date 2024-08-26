@@ -4,12 +4,12 @@ class FavouritesService {
   private BASE_URL = 'https://20cf32060fa290c6.mokky.dev/favourites'
 
   async getFavouriteSneakers() {
-    const { data } = await axios.get<{ id: number; parentId: number }>(`${this.BASE_URL}`)
+    const { data } = await axios.get(`${this.BASE_URL}`)
     return data
   }
 
   async postFavouriteSneakers(params: { parentId: number }) {
-    const { data } = await axios.post<{ parentId: number }>(`${this.BASE_URL}`, params)
+    const { data } = await axios.post(`${this.BASE_URL}`, params)
     return data
   }
 

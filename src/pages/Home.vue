@@ -1,75 +1,9 @@
 <script setup>
-import debounce from 'lodash.debounce'
-import { onMounted, reactive, ref, watch } from 'vue'
-
-import { favouritesService } from '@/services/favourites.service'
-import { sneakersService } from '@/services/sneakers.service'
-
 import Filter from '@/components/Filter.vue'
+import { useSneakersStore } from '@/store/sneakers.store'
 import Card from '../components/Card.vue'
 
-const sneakers = ref([])
-const filter = reactive({
-  search: '',
-  sortItem: 'Названию',
-  sortProperty: 'title'
-})
-
-const onChangeSort = (obj) => {
-  filter.sortItem = obj.item
-  filter.sortProperty = obj.sortProperty
-}
-const onChangeInput = debounce((event) => (filter.search = event), 300)
-
-const fetchSneakers = async () => {
-  try {
-    sneakers.value = (await sneakersService.getSneakers(filter.search, filter.sortProperty)).map(
-      (obj) => ({
-        ...obj,
-        isFavourite: false,
-        isAdded: false
-      })
-    )
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const fetchFavouriteSneakers = async () => {
-  try {
-    const favourites = await favouritesService.getFavouriteSneakers()
-
-    sneakers.value = sneakers.value.map((obj) => {
-      const favourite = favourites.find((i) => i.parentId === obj.id)
-
-      if (!favourite) return obj
-      return { ...obj, isFavourite: true, favouriteId: favourite.id }
-    })
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const addFavouriteSneakers = async (obj) => {
-  try {
-    if (!obj.isFavourite) {
-      obj.isFavourite = true
-      const favourites = await favouritesService.postFavouriteSneakers({ parentId: obj.id })
-      obj.favouriteId = favourites.id
-    } else {
-      obj.isFavourite = false
-      await favouritesService.deleteFavouriteSneakers(obj.favouriteId)
-    }
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-onMounted(async () => {
-  await fetchSneakers()
-  await fetchFavouriteSneakers()
-})
-watch(filter, fetchSneakers)
+const store = useSneakersStore()
 </script>
 
 <template>
@@ -78,20 +12,16 @@ watch(filter, fetchSneakers)
       <div class="flex items-center justify-between gap-5 md4:flex-col">
         <h1 class="text-3xl/none font-bold md3:text-2xl/none">Все кроссовки</h1>
 
-        <Filter
-          @onChangeSort="onChangeSort"
-          @onChangeInput="onChangeInput"
-          v-bind="{ ...filter }"
-        />
+        <Filter />
       </div>
 
       <div
         class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
       >
         <Card
-          v-for="obj in sneakers"
+          v-for="obj in store.sneakers"
           :key="obj.id"
-          @addFavouriteSneakers="() => addFavouriteSneakers(obj)"
+          @addFavouriteSneakers="() => store.addFavouriteSneakers(obj)"
           v-bind="{ ...obj }"
         />
       </div>

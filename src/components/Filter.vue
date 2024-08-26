@@ -1,4 +1,5 @@
 <script setup>
+import { useSneakersStore } from '@/store/sneakers.store'
 import { ChevronDown, Search } from 'lucide-vue-next'
 import { ref } from 'vue'
 
@@ -9,12 +10,7 @@ const list = [
   { item: 'Цене (ASC)', sortProperty: '-price' }
 ]
 
-const emit = defineEmits(['onChangeSort', 'onChangeInput'])
-
-defineProps({
-  search: String,
-  sortItem: String
-})
+const store = useSneakersStore()
 </script>
 
 <template>
@@ -22,8 +18,8 @@ defineProps({
     <div class="mt-3 flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3">
       <Search size="18" color="#E4E4E4" />
       <input
-        :value="search"
-        @input="(e) => emit('onChangeInput', e.target.value)"
+        :value="store.filter.search"
+        @input="(e) => store.onChangeInput(e.target.value)"
         class="block w-full max-w-48 text-sm outline-none placeholder:text-gray-300"
         type="text"
         placeholder="Поиск..."
@@ -37,7 +33,7 @@ defineProps({
       >
         <div>
           <span>Сортировка по: </span>
-          <span>{{ sortItem }}</span>
+          <span>{{ store.filter.sortItem }}</span>
         </div>
         <ChevronDown size="20" />
       </label>
@@ -50,7 +46,7 @@ defineProps({
           v-for="obj in list"
           @click="
             () => {
-              emit('onChangeSort', obj)
+              store.onChangeSort(obj)
               visible = false
             }
           "
