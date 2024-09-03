@@ -1,10 +1,12 @@
 import axios from 'axios'
 
-interface Sneakers {
+interface ISneakers {
   id: number
   title: string
   price: number
   imageUrl: string
+  isFavourite: boolean
+  isAdded: boolean
 }
 
 class SneakersService {
@@ -14,7 +16,14 @@ class SneakersService {
     const sortBy = `?sortBy=${sortProperty}`
     const title = search ? `&title=*${search}*` : ''
 
-    const { data } = await axios.get<Sneakers[]>(`${this.BASE_URL}${sortBy}${title}`)
+    const { data } = await axios.get<ISneakers[]>(`${this.BASE_URL}${sortBy}${title}`)
+    return data
+  }
+
+  async updateSneakers({ id, stateKey, value }: { id: number; stateKey: string; value: boolean }) {
+    const { data } = await axios.patch<ISneakers[]>(`${this.BASE_URL}/${id}`, {
+      [stateKey]: value
+    })
     return data
   }
 }

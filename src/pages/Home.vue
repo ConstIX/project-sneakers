@@ -1,7 +1,7 @@
 <script setup>
+import Card from '@/components/Card.vue'
 import Filter from '@/components/Filter.vue'
 import { useSneakersStore } from '@/store/sneakers.store'
-import Card from '../components/Card.vue'
 
 const store = useSneakersStore()
 </script>
@@ -18,12 +18,7 @@ const store = useSneakersStore()
       <div
         class="mt-10 grid grid-cols-4 gap-9 md1:grid-cols-3 md1:gap-7 md2:grid-cols-2 md2:gap-5 md4:grid-cols-1"
       >
-        <Card
-          v-for="obj in store.sneakers"
-          :key="obj.id"
-          @addFavouriteSneakers="() => store.addFavouriteSneakers(obj)"
-          v-bind="{ ...obj }"
-        />
+        <Card v-for="obj in store.sneakers" :key="obj.id" v-bind="{ ...obj }" />
       </div>
     </div>
   </div>

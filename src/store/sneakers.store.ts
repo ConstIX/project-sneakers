@@ -1,4 +1,3 @@
-import { favouritesService } from '@/services/favourites.service'
 import { sneakersService } from '@/services/sneakers.service'
 import debounce from 'lodash.debounce'
 import { defineStore } from 'pinia'
@@ -9,8 +8,8 @@ interface ISneakers {
   title: string
   price: number
   imageUrl: string
-  isFavourite?: boolean
-  isAdded?: boolean
+  isFavourite: boolean
+  isAdded: boolean
 }
 
 export const useSneakersStore = defineStore('sneakers', () => {
@@ -29,52 +28,24 @@ export const useSneakersStore = defineStore('sneakers', () => {
 
   const fetchSneakers = async () => {
     try {
-      sneakers.value = (await sneakersService.getSneakers(filter.search, filter.sortProperty)).map(
-        (obj) => ({
-          ...obj,
-          isFavourite: false,
-          isAdded: false
-        })
-      )
+      sneakers.value = await sneakersService.getSneakers(filter.search, filter.sortProperty)
     } catch (error) {
       console.error(error)
     }
   }
 
-  const fetchFavouriteSneakers = async () => {
+  const updateSneakers = async (id: number, stateKey: 'isFavourite' | 'isAdded') => {
     try {
-      const favourites = await favouritesService.getFavouriteSneakers()
+      const idx = sneakers.value.findIndex((i) => i.id === id)
+      if (idx !== -1) sneakers.value[idx][stateKey] = !sneakers.value[idx][stateKey]
 
-      sneakers.value = sneakers.value.map((obj) => {
-        const favourite = favourites.find((i: any) => i.parentId === obj.id)
-
-        if (!favourite) return obj
-        return { ...obj, isFavourite: true, favouriteId: favourite.id }
-      })
+      await sneakersService.updateSneakers({ id, stateKey, value: sneakers.value[idx][stateKey] })
     } catch (error) {
       console.error(error)
     }
   }
 
-  const addFavouriteSneakers = async (obj: any) => {
-    try {
-      if (!obj.isFavourite) {
-        obj.isFavourite = true
-        const favourites = await favouritesService.postFavouriteSneakers({ parentId: obj.id })
-        obj.favouriteId = favourites.id
-      } else {
-        obj.isFavourite = false
-        await favouritesService.deleteFavouriteSneakers(obj.favouriteId)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  onMounted(() => {
-    fetchSneakers()
-    fetchFavouriteSneakers()
-  })
+  onMounted(fetchSneakers)
   watch(filter, fetchSneakers)
 
   return {
@@ -83,7 +54,6 @@ export const useSneakersStore = defineStore('sneakers', () => {
     onChangeSort,
     onChangeInput,
     fetchSneakers,
-    fetchFavouriteSneakers,
-    addFavouriteSneakers
+    updateSneakers
   }
 })

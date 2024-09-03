@@ -1,5 +1,8 @@
 <script setup>
+import { useSneakersStore } from '@/store/sneakers.store'
 import { CheckCheck, Heart, Plus } from 'lucide-vue-next'
+
+const store = useSneakersStore()
 
 defineProps({
   id: Number,
@@ -9,8 +12,6 @@ defineProps({
   isFavourite: Boolean,
   isAdded: Boolean
 })
-
-const emit = defineEmits(['addFavouriteSneakers'])
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const emit = defineEmits(['addFavouriteSneakers'])
     class="relative flex h-full cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white px-7 pb-7 pt-2 transition hover:-translate-y-3 hover:shadow-xl"
   >
     <button
-      @click="() => emit('addFavouriteSneakers')"
+      @click="() => store.updateSneakers(id, 'isFavourite')"
       :class="[
         'group absolute top-7 flex h-8 w-8 items-center justify-center rounded-lg border',
         isFavourite ? 'border-red-100 bg-red-100' : ''
@@ -34,6 +35,7 @@ const emit = defineEmits(['addFavouriteSneakers'])
         <b class="text-sm">{{ price }} руб.</b>
       </div>
       <button
+        @click="() => store.updateSneakers(id, 'isAdded')"
         :class="[
           'flex h-8 w-8 items-center justify-center rounded-lg border',
           isAdded ? 'border-green-100 bg-green-100' : ''
