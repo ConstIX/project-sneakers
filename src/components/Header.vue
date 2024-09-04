@@ -4,8 +4,8 @@ import { useMediaQuery } from '@vueuse/core'
 import { Heart, ShoppingCart } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 
-const isMobile = useMediaQuery('(max-width: 530px)')
 const store = useSneakersStore()
+const isMobile = useMediaQuery('(max-width: 530px)')
 const emit = defineEmits(['handleOpenDrawer'])
 </script>
 

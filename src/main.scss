@@ -9,4 +9,8 @@ body {
   &.lock {
     overflow: hidden;
   }
+
+  @media (max-width: 530px) {
+    background-color: #fff;
+  }
 }

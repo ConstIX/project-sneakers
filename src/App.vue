@@ -18,7 +18,9 @@ watch(drawerVisible, (newVal) => {
 <template>
   <Drawer @handleOpenDrawer="handleOpenDrawer" v-bind="{ drawerVisible }" />
 
-  <div class="mx-auto mt-20 w-4/5 rounded-t-2xl bg-white shadow-xl md3:w-full md4:mt-0">
+  <div
+    class="mx-auto mt-20 w-4/5 rounded-t-2xl bg-white shadow-xl md3:w-full md4:mt-0 md4:shadow-none"
+  >
     <Header @handleOpenDrawer="handleOpenDrawer" />
     <RouterView />
   </div>

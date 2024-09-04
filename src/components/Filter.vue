@@ -3,14 +3,14 @@ import { useSneakersStore } from '@/store/sneakers.store'
 import { ChevronDown, Search } from 'lucide-vue-next'
 import { ref } from 'vue'
 
+const store = useSneakersStore()
+
 const visible = ref(false)
 const list = [
   { item: 'Названию', sortProperty: 'title' },
   { item: 'Цене (DESC)', sortProperty: 'price' },
   { item: 'Цене (ASC)', sortProperty: '-price' }
 ]
-
-const store = useSneakersStore()
 </script>
 
 <template>

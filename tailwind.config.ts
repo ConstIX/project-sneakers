@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import plugin from 'tailwindcss/plugin'
 
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -12,9 +11,5 @@ export default {
     },
     extend: {}
   },
-  plugins: [
-    plugin(function ({ addComponents }) {
-      addComponents({})
-    })
-  ]
+  plugins: []
 } satisfies Config

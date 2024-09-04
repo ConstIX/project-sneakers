@@ -53,6 +53,23 @@ export const useSneakersStore = defineStore('sneakers', () => {
     }
   }
 
+  const resetSneakers = async () => {
+    try {
+      for (const sneaker of sneakers.value) {
+        if (sneaker.isAdded) {
+          sneaker.isAdded = false
+          await sneakersService.updateSneakers({
+            id: sneaker.id,
+            stateKey: 'isAdded',
+            value: false
+          })
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   onMounted(fetchSneakers)
   watch(filter, fetchSneakers)
 
@@ -63,6 +80,7 @@ export const useSneakersStore = defineStore('sneakers', () => {
     onChangeSort,
     onChangeInput,
     fetchSneakers,
-    updateSneakers
+    updateSneakers,
+    resetSneakers
   }
 })
