@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  min-width: 370px;
   background-color: #e8f6ff;
 
   &.lock {

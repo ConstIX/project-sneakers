@@ -32,7 +32,7 @@ defineProps({
     <div class="flex items-center justify-between">
       <div>
         <p class="text-xs font-medium uppercase text-gray-300">Цена:</p>
-        <b class="text-sm">{{ price }} руб.</b>
+        <b class="text-sm">{{ price }} ₽</b>
       </div>
       <button
         @click="() => store.updateSneakers(id, 'isAdded')"

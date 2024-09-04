@@ -1,9 +1,11 @@
 <script setup>
+import { useSneakersStore } from '@/store/sneakers.store'
 import { useMediaQuery } from '@vueuse/core'
 import { Heart, ShoppingCart } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 
 const isMobile = useMediaQuery('(max-width: 530px)')
+const store = useSneakersStore()
 const emit = defineEmits(['handleOpenDrawer'])
 </script>
 
@@ -25,7 +27,9 @@ const emit = defineEmits(['handleOpenDrawer'])
             class="flex items-center gap-2 md4:flex-[0_1_18px]"
           >
             <ShoppingCart size="20" color="#9b9b9b" />
-            <span v-if="!isMobile" class="text-sm/none text-gray-400">1205 руб.</span>
+            <span v-if="!isMobile" class="text-sm/none text-gray-400"
+              >{{ store.totalPrice }} ₽</span
+            >
           </button>
 
           <RouterLink to="/favourites" class="flex items-center gap-2">

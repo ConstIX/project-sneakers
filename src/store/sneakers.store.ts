@@ -1,7 +1,7 @@
 import { sneakersService } from '@/services/sneakers.service'
 import debounce from 'lodash.debounce'
 import { defineStore } from 'pinia'
-import { onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 interface ISneakers {
   id: number
@@ -18,6 +18,14 @@ export const useSneakersStore = defineStore('sneakers', () => {
     search: '',
     sortItem: 'Названию',
     sortProperty: 'title'
+  })
+
+  const totalPrice = computed(() => {
+    const orderedSneakers = sneakers.value
+      .filter((i) => i.isAdded === true)
+      .map((i) => i.price)
+      .reduce((pv, i) => pv + i, 0)
+    return orderedSneakers || 0
   })
 
   const onChangeSort = (obj: Record<string, string>) => {
@@ -51,6 +59,7 @@ export const useSneakersStore = defineStore('sneakers', () => {
   return {
     sneakers,
     filter,
+    totalPrice,
     onChangeSort,
     onChangeInput,
     fetchSneakers,
